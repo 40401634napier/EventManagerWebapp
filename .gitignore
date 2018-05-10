@@ -1,3 +1,9 @@
+# Exclude the most stupid and notorious macOS file ever known to humankind
+.DS_Store
+
+# Exclude data.db
+data.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

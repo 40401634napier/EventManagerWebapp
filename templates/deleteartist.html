@@ -1,0 +1,30 @@
+{% extends 'blocks/main.html' %}
+{% block title %}Delete an artist{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form class="form-horizontal">
+            <label for="artist">Artist:</label>
+            <div class="form-group">
+                <select class="form-control" id="artist">
+                    {% for item in artists %}<option value="{{ item[0] }}">{{ item[1] }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="deleteArtistButton">Delete artist</button>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $("#deleteArtistButton").on('click', function() {
+            $.ajax({
+                url: '/api/artist',
+                type: 'DELETE',
+                data: {artistId: $("#artist").val()},
+                success: function(result) {
+                    window.location.reload()
+                }
+            })
+        })
+    </script>
+{% endblock %}

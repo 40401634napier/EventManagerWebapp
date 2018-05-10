@@ -1,0 +1,30 @@
+{% extends 'blocks/main.html' %}
+{% block title %}Delete podium{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form class="form-horizontal">
+            <label for="podium">Podium:</label>
+            <div class="form-group">
+                <select class="form-control" id="podium">
+                    {% for item in podia %}<option value="{{ item[0] }}">{{ item[1] }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="deletePodiumButton">Delete podium</button>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $("#deletePodiumButton").on('click', function() {
+            $.ajax({
+                url: '/api/podium',
+                type: 'DELETE',
+                data: {podiumId: $("#podium").val()},
+                success: function(result) {
+                    window.location.reload()
+                }
+            })
+        })
+    </script>
+{% endblock %}

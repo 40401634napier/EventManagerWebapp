@@ -1,0 +1,37 @@
+{% extends 'blocks/main.html' %}
+{% block title %}View artists{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">Artists</div>
+            
+            <table class="table table-hover table-lg">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Band</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in artists %}
+                    <tr>
+                        <th scope="row">{{ item[0] }}</th>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[4] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("tbody tr").on("click", function() {
+            window.location = "/artists/"+$(this).find("th:first").text()
+        })
+    </script>
+{% endblock %}

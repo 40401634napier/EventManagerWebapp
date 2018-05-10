@@ -1,0 +1,96 @@
+{% extends 'blocks/main.html' %}
+{% block title %}Modify performance{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form class="form-horizontal">
+            <label for="performanceStartDate">Start date and time:</label>
+            <div class="form-group">
+                <div class='input-group date' id='performanceStartDate'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+
+            <label for="performanceEndDate">End date and time:</label>
+            <div class="form-group">
+                <div class='input-group date' id='performanceEndDate'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+
+            <label for="podium">Podium:</label>
+            <div class="form-group">
+                <select class="form-control" id="podium">
+                    {% for item in podia %}<option value="{{ item[0] }}">{{ item[1] }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <label for="band">Band:</label>
+            <div class="form-group">
+                <select class="form-control" id="band">
+                    <option value="-1">None</option>
+                    {% for item in bands %}<option value="{{ item[0] }}">{{ item[1] }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <label for="artist">Artist:</label>
+            <div class="form-group">
+                <select class="form-control" id="artist">
+                    <option value="-1">None</option>
+                    {% for item in artists %}<option value="{{ item[0] }}">{{ item[1] }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="addPerformanceButton">Optreden bijwerken</button>
+        </form>
+    </div>
+    <script type="text/javascript">
+        const performanceToUpdate = "{{ performanceId }}"
+
+        $.get("/api/performance?performanceId="+performanceToUpdate, function(data) {
+            $("#performanceStartDate input").val(data[0].performanceStart)
+            $("#performanceEndDate input").val(data[0].performanceEnd)
+            $("#podium").val(data[0].podiumId)
+
+            if (data[0].artistId) {
+                $("#artist").val(data[0].artistId)
+            }
+
+            if (data[0].bandId) {
+                $("#band").val(data[0].bandId)
+            }
+        })
+        
+        $("#performanceStartDate").datetimepicker({
+            format: 'DD-MM-YYYY HH:mm'
+        });
+
+        $("#performanceEndDate").datetimepicker({
+            format: 'DD-MM-YYYY HH:mm'
+        });
+
+        $("#addPerformanceButton").on('click', function() {
+            var patchBody = {performanceId: performanceToUpdate, performanceStart: $("#performanceStartDate input").val(), performanceEnd: $("#performanceEndDate input").val(), podiumId: $("#podium").val()}
+
+            if ($("#band").val() != "-1") {
+                patchBody.bandId = $("#band").val()
+            } else if ($("#artist").val() != "-1") {
+                patchBody.artistId = $("#artist").val()
+            }
+
+            $.ajax({
+                url: "/api/performance",
+                method: "patch",
+                data: patchBody
+            }).done(function(data) {
+                // todo: user notification after success
+            })
+        })
+    </script>
+{% endblock %}

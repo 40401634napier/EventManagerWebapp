@@ -1,0 +1,30 @@
+{% extends 'blocks/main.html' %}
+{% block title %}Delete a performance{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form class="form-horizontal">
+            <label for="band">Performance:</label>
+            <div class="form-group">
+                <select class="form-control" id="performance">
+                    {% for item in performances %}<option value="{{ item[0] }}">{{ item[1] }} tot {{ item[2] }}, {{ item[4] }} op {{ item[3] }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="deletePerformanceButton">Delete performance</button>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $("#deletePerformanceButton").on('click', function() {
+            $.ajax({
+                url: '/api/performance',
+                type: 'DELETE',
+                data: {performanceId: $("#performance").val()},
+                success: function(result) {
+                    window.location.reload()
+                }
+            })
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'blocks/main.html' %}
+{% block title %}Modify podium{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form class="form-horizontal">
+            <label for="podiumDescription">Description of the podium:</label>
+            <div class="form-group">
+                <textarea class="form-control" rows="5" id="podiumDescription" style="resize: none;"></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="addPodiumButton">Modify podium</button>
+        </form>
+    </div>
+    <script type="text/javascript">
+        const podiumToUpdate = "{{ podiumId }}"
+
+        $.get("/api/podium?podiumId="+podiumToUpdate, function(data) {
+            $("#podiumDescription").val(data[0].podiumDescription)
+        })
+
+        $("#addPodiumButton").on('click', function() {
+            var patchBody = {podiumId: podiumToUpdate, podiumDescription: $("#podiumDescription").val()}
+
+            $.ajax({
+                url: "/api/podium",
+                method: "patch",
+                data: patchBody
+            }).done(function(data) {
+                // todo: user notification after success
+            })
+        })
+    </script>
+{% endblock %}

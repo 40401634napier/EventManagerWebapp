@@ -1,0 +1,53 @@
+{% extends 'blocks/main.html' %}
+{% block title %}Modify artist{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form class="form-horizontal">
+            <label for="artistName">Name of the artist:</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="artistName">
+            </div>
+
+            <label for="artistDescription">Description of the artist:</label>
+            <div class="form-group">
+                <textarea class="form-control" rows="5" id="artistDescription" style="resize: none;"></textarea>
+            </div>
+
+            <label for="artistBand">Band of the artist:</label>
+            <div class="form-group">
+                <select class="form-control" id="artistBand">
+                    <option value="-1">None</option>
+                    {% for item in bands %}<option value="{{ item[0] }}">{{ item[1] }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="addArtistButton">Modify artist</button>
+        </form>
+    </div>
+    <script type="text/javascript">
+        const artistToUpdate = "{{ artistId }}"
+
+        $.get("/api/artist?artistId="+artistToUpdate, function(data) {
+            $("#artistName").val(data[0].artistName)
+            $("#artistDescription").val(data[0].artistDescription)
+            $("#artistBand").val(data[0].bandId)
+        })
+
+        $("#addArtistButton").on('click', function() {
+            var patchBody = {artistId: artistToUpdate, artistName: $("#artistName").val(), artistDescription: $("#artistDescription").val()}
+
+            if ($("#artistBand").val() != "-1") {
+                patchBody.bandId = $("#artistBand").val()
+            }
+
+            $.ajax({
+                url: "/api/artist",
+                method: "patch",
+                data: patchBody
+            }).done(function(data) {
+                // todo: user notification after success
+            })
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'blocks/main.html' %}
+{% block title %}Add band{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form class="form-horizontal">
+            <label for="bandName">Name of the band:</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="bandName">
+            </div>
+
+            <label for="bandDescription">Description of the band:</label>
+            <div class="form-group">
+                <textarea class="form-control" rows="5" id="bandDescription" style="resize: none;"></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="addBandButton">Add band</button>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $("#addBandButton").on('click', function() {
+            var postBody = {bandName: $("#bandName").val(), bandDescription: $("#bandDescription").val()}
+
+            $.post("/api/band", postBody, function(data) {
+                // todo: user notification after success
+            })
+        })
+    </script>
+{% endblock %}
