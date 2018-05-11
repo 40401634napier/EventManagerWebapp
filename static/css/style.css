@@ -2,3 +2,16 @@
     margin-left: 0px !important;
     margin-right: 30px !important;
 }
+
+.alert-mod {
+    padding: 12px;
+    margin-bottom: 24px;
+}
+
+.container {
+    width: 97.5% !important;
+}
+
+.btn-block {
+    width: 97.5% !important;
+}

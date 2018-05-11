@@ -43,7 +43,10 @@ def home():
 
 @app.route('/artists')
 def artists():
-    return render_template('artists.html', isArtist=True, artists=Artist(cur).getAllArtists(False, True))
+    if (request.args.get('success')):
+        return render_template('artists.html', isArtist=True, isSuccess=True, artists=Artist(cur).getAllArtists(False, True))
+    else:
+        return render_template('artists.html', isArtist=True, artists=Artist(cur).getAllArtists(False, True))
 
 @app.route('/artists/<int:artistId>')
 def artist_modify(artistId):
@@ -59,7 +62,10 @@ def artists_delete():
 
 @app.route("/bands")
 def bands():
-    return render_template('bands.html', isBand=True, bands=Band(cur).getAllBands(False, True))
+    if (request.args.get('success')):
+        return render_template('bands.html', isBand=True, isSuccess=True, bands=Band(cur).getAllBands(False, True))
+    else:
+        return render_template('bands.html', isBand=True, bands=Band(cur).getAllBands(False, True))
 
 @app.route('/bands/<int:bandId>')
 def bands_modify(bandId):
@@ -75,7 +81,10 @@ def bands_delete():
 
 @app.route("/podia")
 def podia():
-    return render_template('podia.html', isPodium=True, podia=Podium(cur).getAllPodia())
+    if (request.args.get('success')):
+        return render_template('podia.html', isPodium=True, isSuccess=True, podia=Podium(cur).getAllPodia())
+    else:
+        return render_template('podia.html', isPodium=True, podia=Podium(cur).getAllPodia())
 
 @app.route('/podia/<int:podiumId>')
 def podia_modify(podiumId):
@@ -91,7 +100,10 @@ def podia_delete():
 
 @app.route('/performances')
 def performances():
-    return render_template('performances.html', isPerformance=True, performances=Performance(cur).getAllPerformances(False, True))
+    if (request.args.get('success')):
+        return render_template('performances.html', isPerformance=True, isSuccess=True, performances=Performance(cur).getAllPerformances(False, True))
+    else:
+        return render_template('performances.html', isPerformance=True, performances=Performance(cur).getAllPerformances(False, True))
 
 @app.route('/performances/<int:performanceId>')
 def performances_modify(performanceId):

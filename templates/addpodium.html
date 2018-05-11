@@ -17,7 +17,7 @@
             var postBody = {podiumDescription: $("#podiumDescription").val()}
 
             $.post("/api/podium", postBody, function(data) {
-                // todo: user notification after success
+                window.location = "/podia?success=true"
             })
         })
     </script>

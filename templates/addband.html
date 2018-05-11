@@ -22,7 +22,7 @@
             var postBody = {bandName: $("#bandName").val(), bandDescription: $("#bandDescription").val()}
 
             $.post("/api/band", postBody, function(data) {
-                // todo: user notification after success
+                window.location = "/bands?success=true"
             })
         })
     </script>

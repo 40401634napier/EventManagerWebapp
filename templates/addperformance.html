@@ -69,7 +69,7 @@
             }
 
             $.post("/api/performance", postBody, function(data) {
-                // todo: user notification after success
+                window.location = "/performances?success=true"
             })
         })
     </script>
