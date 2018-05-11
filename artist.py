@@ -4,6 +4,7 @@ class Artist:
     def __init__(self, cursor):
         self.cursor = cursor
 
+    # Gets all artists
     def getAllArtists(self, asJSON = False, includeBand = False):
         if asJSON:
             artists = []
@@ -20,11 +21,13 @@ class Artist:
             else:
                 return self.cursor.execute("SELECT * FROM artists").fetchall()
 
+    # Creates an artist
     def createArtist(self, artistName, artistDescription, bandId):
         print(bandId)
         self.cursor.execute("INSERT INTO artists (artistName, artistDescription, bandId) VALUES (?, ?, ?)", (artistName, artistDescription, bandId))
         return str(self.cursor.lastrowid)
 
+    # Gets a specific artist
     def getArtist(self, artistId, asJSON = False):
         if asJSON:
             artists = []
@@ -34,11 +37,13 @@ class Artist:
         else:
             return self.cursor.execute("SELECT * FROM artists WHERE artistId = ?", (artistId,)).fetchall()
 
+    # Updates (modifies) an artist
     def updateArtist(self, artistId, artistName, artistDescription, bandId, asJSON = False):
         self.cursor.execute("UPDATE artists SET artistName = ?, artistDescription = ?, bandId = ? WHERE artistId = ?", (artistName, artistDescription, bandId, artistId))
         if asJSON:
             return json.dumps({'artistId': artistId, 'artistName': artistName, 'artistDescription': artistDescription, 'bandId': bandId})
 
+    # Deletes an artist
     def removeArtist(self, artistId, asJSON = False):
         if asJSON:
             row = self.cursor.execute("SELECT * FROM artists WHERE artistId = ?", (artistId,)).fetchone()

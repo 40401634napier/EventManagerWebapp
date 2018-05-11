@@ -4,6 +4,7 @@ class Performance:
     def __init__(self, cursor):
         self.cursor = cursor
 
+    # Gets all performances
     def getAllPerformances(self, asJSON = False, includePerformer = False):
         if asJSON:
             performances = []
@@ -24,10 +25,12 @@ class Performance:
             else:
                 return self.cursor.execute("SELECT * FROM performances").fetchall()
 
+    # Creates a performance
     def createPerformance(self, performanceStart, performanceEnd, podiumId, bandId, artistId):
         self.cursor.execute("INSERT INTO performances (performanceStart, performanceEnd, podiumId, bandId, artistId) VALUES (?, ?, ?, ?, ?)", (performanceStart, performanceEnd, podiumId, bandId, artistId))
         return str(self.cursor.lastrowid)
 
+    # Gets a specific performance
     def getPerformance(self, performanceId, asJSON = False):
         if asJSON:
             performances = []
@@ -37,11 +40,13 @@ class Performance:
         else:
             return self.cursor.execute("SELECT * FROM performances WHERE performanceId = ?", (performanceId,)).fetchall()
 
+    # Updates (modifies) a performance
     def updatePerformance(self, performanceId, performanceStart, performanceEnd, podiumId, bandId, artistId, asJSON = False):
         self.cursor.execute("UPDATE performances SET performanceStart = ?, performanceEnd = ?, podiumId = ?, bandId = ?, artistId = ? WHERE performanceId = ?", (performanceStart, performanceEnd, podiumId, bandId, artistId, performanceId))
         if asJSON:
             return json.dumps({'performanceId': performanceId, 'performanceStart': performanceStart, 'performanceEnd': performanceEnd, 'podiumId': podiumId, 'bandId': bandId, 'artistId': artistId})
     
+    # Deletes a performance
     def removePerformance(self, performanceId, asJSON = False):
         if asJSON:
             performance = self.cursor.execute("SELECT * FROM performances WHERE performanceId = ?", (performanceId,)).fetchone()

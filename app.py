@@ -33,10 +33,9 @@ conn.commit()
 # Instantiate our app
 app = Flask(__name__)
 
-# @app.route('/api')
-# def api_home():
-#     return render_template('main.html', title="It works!")
-
+# All available routes for this app are defined below this line.
+# These routes define our URL endpoints and how they should be handled.
+# All routes starting with /api are RESTful and support CRUD operations.
 @app.route('/')
 def home():
     return render_template('index.html', isHome=True)
