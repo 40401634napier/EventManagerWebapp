@@ -24,14 +24,14 @@ class Band:
         self.cursor.execute("INSERT INTO bands (bandName, bandDescription) VALUES (?, ?)", (bandName, bandDescription))
         return str(self.cursor.lastrowid)
 
-    def getBand(self, bandName, asJSON = False):
+    def getBand(self, bandId, asJSON = False):
         if asJSON:
             bands = []
-            for band in self.cursor.execute("SELECT * FROM bands WHERE bandName = ?", (bandName,)).fetchall():
+            for band in self.cursor.execute("SELECT * FROM bands WHERE bandId = ?", (bandId,)).fetchall():
                 bands.append({'bandId': band[0], 'bandName': band[1], 'bandDescription': band[2]})
             return json.dumps(bands)
         else:
-            return self.cursor.execute("SELECT * FROM bands WHERE bandName = ?", (bandName,)).fetchall()
+            return self.cursor.execute("SELECT * FROM bands WHERE bandId = ?", (bandId,)).fetchall()
     
     def updateBand(self, bandId, bandName, bandDescription, asJSON = False):
         self.cursor.execute("UPDATE bands SET bandName = ?, bandDescription = ? WHERE bandId = ?", (bandName,bandDescription,bandId))

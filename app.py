@@ -108,9 +108,9 @@ def performances_delete():
 @app.route('/api/band', methods=['GET','POST','PATCH','DELETE'])
 def api_band():
     if request.method == 'GET':
-        bandName = request.args.get('bandName')
-        if (bandName):
-            return Response(Band(cur).getBand(bandName, True), mimetype='application/json')
+        bandId = request.args.get('bandId')
+        if (bandId):
+            return Response(Band(cur).getBand(bandId, True), mimetype='application/json')
         else:
             return Response(Band(cur).getAllBands(True), mimetype='application/json')
     elif request.method == 'POST':
@@ -138,9 +138,9 @@ def api_band():
 @app.route('/api/artist', methods=['GET','POST','PATCH','DELETE'])
 def api_artist():
     if request.method == 'GET':
-        artistName = request.args.get('artistName')
-        if (artistName):
-            return Response(Artist(cur).getArtist(artistName, True), mimetype='application/json')
+        artistId = request.args.get('artistId')
+        if (artistId):
+            return Response(Artist(cur).getArtist(artistId, True), mimetype='application/json')
         else:
             return Response(Artist(cur).getAllArtists(True), mimetype='application/json')
     elif request.method == 'POST':

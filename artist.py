@@ -25,14 +25,14 @@ class Artist:
         self.cursor.execute("INSERT INTO artists (artistName, artistDescription, bandId) VALUES (?, ?, ?)", (artistName, artistDescription, bandId))
         return str(self.cursor.lastrowid)
 
-    def getArtist(self, artistName, asJSON = False):
+    def getArtist(self, artistId, asJSON = False):
         if asJSON:
             artists = []
-            for artist in self.cursor.execute("SELECT * FROM artists WHERE artistName = ?", (artistName,)).fetchall():
+            for artist in self.cursor.execute("SELECT * FROM artists WHERE artistId = ?", (artistId,)).fetchall():
                 artists.append({'artistId': artist[0], 'artistName': artist[1], 'artistDescription': artist[2], 'bandId': artist[3]})
             return json.dumps(artists)
         else:
-            return self.cursor.execute("SELECT * FROM artists WHERE artistName = ?", (artistName,)).fetchall()
+            return self.cursor.execute("SELECT * FROM artists WHERE artistId = ?", (artistId,)).fetchall()
 
     def updateArtist(self, artistId, artistName, artistDescription, bandId, asJSON = False):
         self.cursor.execute("UPDATE artists SET artistName = ?, artistDescription = ?, bandId = ? WHERE artistId = ?", (artistName, artistDescription, bandId, artistId))
